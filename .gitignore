@@ -1,0 +1,47 @@
+# ── ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ──
+.env
+.env.*
+!.env.example
+
+# ── PYTHON ──
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ── ВИРТУАЛЬНОЕ ОКРУЖЕНИЕ ──
+venv/
+env/
+.venv/
+.env/
+
+# ── DJANGO ──
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+
+# Медиафайлы (загруженные пользователями)
+media/
+
+# Статика (собранная через collectstatic)
+staticfiles/
+static_root/
+
+# Логи
+*.log
+logs/
+
+# ── IDE ──
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── СЕРТИФИКАТЫ И КЛЮЧИ ──
+*.pem
+*.key
+*.cert
+*.crt
