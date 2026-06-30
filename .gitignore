@@ -24,9 +24,7 @@ db.sqlite3-journal
 # Медиафайлы (загруженные пользователями)
 
 
-# Статика (собранная через collectstatic)
-staticfiles/
-static_root/
+
 
 # Логи
 *.log
