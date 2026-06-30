@@ -22,10 +22,11 @@ db.sqlite3
 db.sqlite3-journal
 
 # Медиафайлы (загруженные пользователями)
-media/
+
 
 # Статика (собранная через collectstatic)
-
+staticfiles/
+static_root/
 
 # Логи
 *.log
