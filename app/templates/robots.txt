@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flexcamp.uz/sitemap.xml
+
+Disallow: /admin/
+Disallow: /order
