@@ -190,123 +190,6 @@
   .meal-info p { color: var(--gray); font-size: 0.88rem; }
   .meal-time { margin-left: auto; color: var(--blue); font-weight: 800; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
 
-  /* ── DACHAS (HOUSES) — карусель карточек ── */
-  #dachas { background: #fff; }
-  .dachas-intro { max-width: 700px; margin-bottom: 48px; }
-
-  .dachas-carousel-wrap {
-    position: relative;
-    /* место для стрелок по бокам — они не залезают на карточки */
-    padding: 0 56px;
-  }
-  .dachas-track {
-    display: flex; gap: 24px;
-    overflow-x: auto; scroll-snap-type: x mandatory;
-    scroll-behavior: smooth; padding-bottom: 12px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .dachas-track::-webkit-scrollbar { height: 8px; }
-  .dachas-track::-webkit-scrollbar-track { background: var(--gray-light); border-radius: 10px; }
-  .dachas-track::-webkit-scrollbar-thumb { background: var(--blue-light); border-radius: 10px; }
-
-  .dacha-card {
-    flex: 0 0 320px; scroll-snap-align: start;
-    border-radius: var(--radius); overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s, box-shadow 0.3s;
-    background: #fff;
-  }
-  .dacha-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-
-  .carousel-arrow {
-    position: absolute; top: 45%; transform: translateY(-50%);
-    width: 46px; height: 46px; border-radius: 50%;
-    background: #fff; border: 1px solid #E8EFF8;
-    box-shadow: var(--shadow); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; color: var(--blue); z-index: 5;
-    transition: background 0.2s, color 0.2s;
-  }
-  .carousel-arrow:hover { background: var(--blue); color: #fff; }
-  /* стрелки в padding-зоне враппера — не перекрывают карточки */
-  .carousel-arrow.prev { left: 4px; }
-  .carousel-arrow.next { right: 4px; }
-  @media (max-width: 700px) { .carousel-arrow { display: none; } }
-  @media (max-width: 900px) { .dachas-carousel-wrap { padding: 0 44px; } }
-
-  /* мини-галерея фото внутри карточки дома */
-  .dacha-gallery {
-    position: relative; height: 200px; overflow: hidden;
-    background: linear-gradient(135deg, #E8F4FF, #C8DFFF);
-  }
-  .dacha-gallery-track {
-    display: flex; height: 100%;
-    transition: transform 0.35s ease;
-  }
-  .dacha-gallery-slide { flex: 0 0 100%; height: 100%; }
-  .dacha-gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .dacha-gallery-empty {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 4rem;
-  }
-  .dacha-badge-avail { position: absolute; top: 14px; right: 14px; padding: 5px 14px; border-radius: 50px; font-size: 12px; font-weight: 800; z-index: 3; }
-  .badge-avail { background: #D4F5E3; color: #1A8A4A; }
-  .badge-soon { background: #FFF0D4; color: #B87000; }
-
-  .gallery-nav {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 32px; height: 32px; border-radius: 50%;
-    background: rgba(11,30,61,0.45); color: #fff; border: none;
-    cursor: pointer; font-size: 14px; z-index: 4;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-  .gallery-nav:hover { background: rgba(11,30,61,0.7); }
-  .gallery-nav.gprev { left: 8px; }
-  .gallery-nav.gnext { right: 8px; }
-
-  .gallery-dots {
-    position: absolute; bottom: 10px; left: 0; right: 0;
-    display: flex; justify-content: center; gap: 6px; z-index: 4;
-  }
-  .gallery-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55); cursor: pointer; transition: background 0.2s, transform 0.2s; }
-  .gallery-dot.active { background: #fff; transform: scale(1.3); }
-
-  .dacha-body { padding: 22px 24px; }
-  .dacha-body h3 { font-family: 'Unbounded', sans-serif; font-size: 1rem; font-weight: 900; margin-bottom: 8px; }
-  .dacha-body .dacha-desc { color: var(--gray); font-size: 0.88rem; line-height: 1.55; margin-bottom: 14px; }
-  .dacha-features { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .dacha-feat { background: var(--sky); color: var(--blue); padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-  .dacha-price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .dacha-price { font-family: 'Unbounded', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--blue); }
-  .dacha-price small { font-family: 'Nunito', sans-serif; font-size: 0.75rem; color: var(--gray); font-weight: 600; }
-
-  .click_logo {
-    width: 100%; padding: 12px; cursor: pointer; color: #fff;
-    line-height: 1; font-size: 14px; font-family: 'Nunito', sans-serif;
-    font-weight: 800; text-align: center;
-    border: none; border-radius: 50px;
-    background: linear-gradient(90deg, #27a8e0 0%, #1c8ed7 100%);
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 6px 18px rgba(28,142,215,0.35);
-  }
-  .click_logo:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(28,142,215,0.45); }
-
-  .btn-dacha {
-    width: 100%; background: var(--blue); color: #fff;
-    border: none; padding: 13px; border-radius: 50px;
-    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 15px;
-    cursor: pointer; transition: background 0.2s, transform 0.2s;
-  }
-  .btn-dacha:hover { background: var(--blue-dark); transform: scale(1.02); }
-  .admin-note { background: linear-gradient(135deg, var(--sky), #D4E8FF); border-radius: var(--radius); padding: 28px 32px; border-left: 4px solid var(--blue); margin-top: 32px; display: flex; align-items: center; gap: 16px; }
-  .admin-note-icon { font-size: 2rem; }
-  .admin-note p { color: var(--blue-dark); font-weight: 700; font-size: 0.95rem; }
-  .admin-note small { display: block; color: var(--gray); font-size: 0.85rem; margin-top: 4px; font-weight: 600; }
-  .dachas-empty { text-align: center; padding: 48px 24px; color: var(--gray); font-weight: 700; }
-
   #register { background: linear-gradient(135deg, #0D4FA0 0%, #1A6FD4 60%, #2E8FFF 100%); position: relative; overflow: hidden; }
   #register::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(255,208,0,0.12) 0%, transparent 60%); }
   .register-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 2; }
@@ -377,7 +260,6 @@
     .act-grid { grid-template-columns: 1fr; }
     .food-intro { flex-direction: column; text-align: center; }
     .form-card { padding: 28px 22px; }
-    .dacha-card { flex-basis: 270px; }
   }
 
   .mobile-nav { display: none; flex-direction: column; gap: 0; background: #fff; position: fixed; top: 73px; left: 0; right: 0; z-index: 998; box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-top: 1px solid #eee; }
@@ -396,7 +278,7 @@
       <li><a href="#activities">Кружки</a></li>
       <li><a href="#sessions">Смены</a></li>
       <li><a href="#food">Питание</a></li>
-      <li><a href="#dachas">Домики</a></li>
+
     </ul>
     <button class="nav-cta" onclick="scrollToForm()">Записаться</button>
     <div class="burger" id="burger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
@@ -407,7 +289,7 @@
   <a href="#activities" onclick="toggleMobile()">Кружки</a>
   <a href="#sessions" onclick="toggleMobile()">Смены</a>
   <a href="#food" onclick="toggleMobile()">Питание</a>
-  <a href="#dachas" onclick="toggleMobile()">Домики</a>
+
   <a href="#register" onclick="toggleMobile()">Записаться</a>
 </div>
 
@@ -531,70 +413,7 @@
   </div>
 </section>
 
-<!-- DACHAS — карусель домиков из базы Django, у каждого своя адаптивная фотогалерея -->
-<section id="dachas">
-  <div class="container">
-    <div class="dachas-intro reveal">
-      <span class="section-label">Домики на природе</span>
-      <h2 class="section-title">Хотите быть рядом с ребёнком? Есть домики</h2>
-      <p class="section-sub">Снимите уютный домик прямо на территории лагеря. Горный воздух, тишина и семья рядом — лучшие летние каникулы для всех.</p>
-    </div>
 
-    {% if houses %}
-    <div class="dachas-carousel-wrap reveal">
-      <button class="carousel-arrow prev" onclick="scrollDachas(-1)" aria-label="Назад">‹</button>
-      <button class="carousel-arrow next" onclick="scrollDachas(1)" aria-label="Вперёд">›</button>
-
-      <div class="dachas-track" id="dachasTrack">
-        {% for h in houses %}
-        <div class="dacha-card">
-
-          <div class="dacha-gallery" id="gallery-{{ h.id }}">
-
-            <div class="dacha-gallery-track" id="galleryTrack-{{ h.id }}">
-              {% for photo in h.house_photo_set.all %}
-              <div class="dacha-gallery-slide">
-                <img src="{{ photo.house_photo.url }}" alt="{{ h.house_name }}" loading="lazy">
-              </div>
-              {% empty %}
-              <div class="dacha-gallery-slide">
-                <div class="dacha-gallery-empty">🏡</div>
-              </div>
-              {% endfor %}
-            </div>
-            <!-- стрелки/точки галереи достраиваются в JS по реальному числу слайдов -->
-          </div>
-
-          <div class="dacha-body">
-            <h3>{{ h.house_name }}</h3>
-            {% if h.house_description %}<p class="dacha-desc">{{ h.house_description }}</p>{% endif %}
-
-            <div class="dacha-price-row">
-              <div>
-                <div class="dacha-price">{{ h.house_price }} <small>сум</small></div>
-                <small>за сутки · без питания</small>
-              </div>
-            </div>
-
-            <button class="btn-dacha" onclick="openDachaModal('{{ h.house_name }}')">Забронировать</button>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-    {% else %}
-    <div class="dachas-empty reveal">Пока нет доступных домиков — загляните позже 🏡</div>
-    {% endif %}
-
-    <div class="admin-note reveal">
-      <div class="admin-note-icon">🔧</div>
-      <div>
-        <p>Раздел домиков обновляется администратором</p>
-        <small>Актуальное наличие и цены — уточняйте при записи или по телефону. Новые домики добавляются регулярно.</small>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- REGISTER -->
 <section id="register">
@@ -693,7 +512,6 @@
       <a href="#activities">Кружки</a>
       <a href="#sessions">Смены и цены</a>
       <a href="#food">Питание</a>
-      <a href="#dachas">Домики</a>
       <a href="#register">Записаться</a>
     </div>
     <div class="footer-col">
@@ -736,53 +554,6 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="dachaModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeDachaModal()">✕</button>
-    <h3>Бронирование домика</h3>
-
-    <form id="dachaFormContent"
-          action="/orderhouse"
-          method="post"
-          onsubmit="return submitDacha(event)">
-      {% csrf_token %}
-
-      <!-- Домик — заполняется автоматически при открытии модалки -->
-      <div class="form-group">
-        <label for="d-house">Выбранный домик</label>
-        <input type="text" id="d-house" name="house_name" readonly
-               style="background:#f0f6ff; color:var(--blue); font-weight:800; cursor:default;">
-      </div>
-
-      <div class="form-group">
-        <label for="d-name">Ваше имя</label>
-        <input type="text" id="d-name" name="guest_name"
-               placeholder="Например: Нодира" autocomplete="name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="d-phone">Номер телефона</label>
-        <input type="tel" id="d-phone" name="guest_phone"
-               placeholder="+998 XX XXX XX XX"
-               oninput="phoneMask(this)" onfocus="phoneInit(this)" value="+998 "
-               autocomplete="tel" required>
-        <span id="d-phone-error" style="display:none; color:#e53935; font-size:12px; margin-top:4px; font-weight:700;">
-          Введите полный номер: +998 XX XXX XX XX
-        </span>
-      </div>
-
-      <button type="submit" class="btn-submit" style="margin-top:8px;" id="dachaSubmitBtn">
-        Отправить заявку
-      </button>
-    </form>
-
-    <div class="success-msg" id="dachaSuccess">
-      <div class="check">✅</div>
-      <h3>Заявка принята!</h3>
-      <p>Мы свяжемся с вами в ближайшее время для подтверждения бронирования.</p>
-    </div>
-  </div>
-</div>
 
 <script>
 window.addEventListener('scroll', () => {
@@ -807,61 +578,8 @@ function showMenu(day, btn) {
 
 function scrollToForm() { document.getElementById('register').scrollIntoView({ behavior: 'smooth' }); }
 
-// ── КАРУСЕЛЬ КАРТОЧЕК ДОМИКОВ (горизонтальный скролл со стрелками) ──
-function scrollDachas(dir) {
-  const track = document.getElementById('dachasTrack');
-  if (!track) return;
-  const card = track.querySelector('.dacha-card');
-  const step = card ? card.getBoundingClientRect().width + 24 : 320;
-  track.scrollBy({ left: dir * step, behavior: 'smooth' });
-}
-
-// ── МИНИ-ГАЛЕРЕИ ВНУТРИ КАЖДОЙ КАРТОЧКИ ДОМА ──
 // Достраивает стрелки/точки под реальное число фото (1–5).
 // Если фото 0 или 1 — управление не нужно, ничего не добавляем.
-function initGalleries() {
-  document.querySelectorAll('.dacha-gallery').forEach(gallery => {
-    const track = gallery.querySelector('.dacha-gallery-track');
-    const slides = track ? track.querySelectorAll('.dacha-gallery-slide') : [];
-    const count = slides.length;
-    if (count <= 1) return;
-
-    let index = 0;
-
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'gallery-nav gprev';
-    prevBtn.innerHTML = '‹';
-    prevBtn.type = 'button';
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'gallery-nav gnext';
-    nextBtn.innerHTML = '›';
-    nextBtn.type = 'button';
-
-    const dots = document.createElement('div');
-    dots.className = 'gallery-dots';
-    for (let i = 0; i < count; i++) {
-      const dot = document.createElement('span');
-      dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-      dot.addEventListener('click', () => goTo(i));
-      dots.appendChild(dot);
-    }
-
-    function render() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      dots.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === index));
-    }
-    function goTo(i) { index = (i + count) % count; render(); }
-
-    prevBtn.addEventListener('click', () => goTo(index - 1));
-    nextBtn.addEventListener('click', () => goTo(index + 1));
-
-    gallery.appendChild(prevBtn);
-    gallery.appendChild(nextBtn);
-    gallery.appendChild(dots);
-  });
-}
-document.addEventListener('DOMContentLoaded', initGalleries);
-
 function openModal(sessionName) {
   document.getElementById('modalSessionLabel').textContent = sessionName;
   document.getElementById('modalFormContent').style.display = 'block';
@@ -876,79 +594,6 @@ function submitModal() {
   document.getElementById('modalFormContent').style.display = 'none';
   document.getElementById('modalSuccess').style.display = 'block';
   setTimeout(closeModal, 3000);
-}
-
-function openDachaModal(houseName) {
-  // Автоматически вставляем название домика
-  document.getElementById('d-house').value = houseName;
-  // Сбрасываем форму
-  document.getElementById('d-name').value = '';
-  document.getElementById('d-phone').value = '+998 ';
-  document.getElementById('d-phone-error').style.display = 'none';
-  document.getElementById('dachaFormContent').style.display = 'block';
-  document.getElementById('dachaSuccess').style.display = 'none';
-  document.getElementById('dachaModal').classList.add('open');
-}
-
-function closeDachaModal() {
-  document.getElementById('dachaModal').classList.remove('open');
-}
-
-function submitDacha(e) {
-  e.preventDefault();
-
-  const form  = document.getElementById('dachaFormContent');
-  const name  = document.getElementById('d-name').value.trim();
-  const phone = document.getElementById('d-phone').value.trim();
-  const phoneError = document.getElementById('d-phone-error');
-  const btn   = document.getElementById('dachaSubmitBtn');
-
-  // Валидация имени
-  if (!name) {
-    document.getElementById('d-name').style.borderColor = '#e53935';
-    document.getElementById('d-name').focus();
-    return false;
-  }
-  document.getElementById('d-name').style.borderColor = '';
-
-  // Валидация телефона — минимум 12 цифр (+998 + 9 цифр)
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length < 12) {
-    phoneError.style.display = 'block';
-    document.getElementById('d-phone').style.borderColor = '#e53935';
-    document.getElementById('d-phone').focus();
-    return false;
-  }
-  phoneError.style.display = 'none';
-  document.getElementById('d-phone').style.borderColor = '';
-
-  // Блокируем кнопку
-  btn.disabled = true;
-  btn.textContent = 'Отправляем...';
-
-  const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-  fetch('/orderhouse', {
-    method: 'POST',
-    headers: { 'X-CSRFToken': csrf },
-    body: new FormData(form),
-  })
-  .then(res => {
-    if (res.ok || res.redirected) {
-      form.style.display = 'none';
-      document.getElementById('dachaSuccess').style.display = 'block';
-      setTimeout(closeDachaModal, 3500);
-    } else {
-      throw new Error('server error');
-    }
-  })
-  .catch(() => {
-    btn.disabled = false;
-    btn.textContent = 'Отправить заявку';
-    alert('Ошибка при отправке. Позвоните нам напрямую.');
-  });
-
-  return false;
 }
 
 // Main form — отправка через fetch с CSRF-токеном Django
@@ -1016,7 +661,6 @@ function phoneMask(input) {
 }
 
 document.getElementById('bookModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-document.getElementById('dachaModal').addEventListener('click', function(e) { if (e.target === this) closeDachaModal(); });
 </script>
 </body>
 </html>
