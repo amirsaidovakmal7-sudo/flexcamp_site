@@ -550,19 +550,17 @@
         <div class="dacha-card">
 
           <div class="dacha-gallery" id="gallery-{{ h.id }}">
-            <span class="dacha-badge-avail {% if h.is_available %}badge-avail{% else %}badge-soon{% endif %}">
-              {% if h.is_available %}✓ Есть места{% else %}Скоро{% endif %}
-            </span>
 
             <div class="dacha-gallery-track" id="galleryTrack-{{ h.id }}">
-              {% if h.house_photo1 %}<div class="dacha-gallery-slide"><img src="{{ h.house_photo1.url }}" alt="{{ h.house_name }}" loading="lazy"></div>{% endif %}
-              {% if h.house_photo2 %}<div class="dacha-gallery-slide"><img src="{{ h.house_photo2.url }}" alt="{{ h.house_name }}" loading="lazy"></div>{% endif %}
-              {% if h.house_photo3 %}<div class="dacha-gallery-slide"><img src="{{ h.house_photo3.url }}" alt="{{ h.house_name }}" loading="lazy"></div>{% endif %}
-              {% if h.house_photo4 %}<div class="dacha-gallery-slide"><img src="{{ h.house_photo4.url }}" alt="{{ h.house_name }}" loading="lazy"></div>{% endif %}
-              {% if h.house_photo5 %}<div class="dacha-gallery-slide"><img src="{{ h.house_photo5.url }}" alt="{{ h.house_name }}" loading="lazy"></div>{% endif %}
-              {% if not h.house_photo1 and not h.house_photo2 and not h.house_photo3 and not h.house_photo4 and not h.house_photo5 %}
-              <div class="dacha-gallery-slide"><div class="dacha-gallery-empty">🏡</div></div>
-              {% endif %}
+              {% for photo in h.house_photo_set.all %}
+              <div class="dacha-gallery-slide">
+                <img src="{{ photo.house_photo.url }}" alt="{{ h.house_name }}" loading="lazy">
+              </div>
+              {% empty %}
+              <div class="dacha-gallery-slide">
+                <div class="dacha-gallery-empty">🏡</div>
+              </div>
+              {% endfor %}
             </div>
             <!-- стрелки/точки галереи достраиваются в JS по реальному числу слайдов -->
           </div>
@@ -570,13 +568,6 @@
           <div class="dacha-body">
             <h3>{{ h.house_name }}</h3>
             {% if h.house_description %}<p class="dacha-desc">{{ h.house_description }}</p>{% endif %}
-
-            {% if h.capacity or h.bedrooms %}
-            <div class="dacha-features">
-              {% if h.capacity %}<span class="dacha-feat">👥 {{ h.capacity }}</span>{% endif %}
-              {% if h.bedrooms %}<span class="dacha-feat">🛏 {{ h.bedrooms }}</span>{% endif %}
-            </div>
-            {% endif %}
 
             <div class="dacha-price-row">
               <div>
