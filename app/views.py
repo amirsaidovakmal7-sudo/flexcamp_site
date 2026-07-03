@@ -48,9 +48,7 @@ def send_form(request):
                 f'Имя родителя: {parent_name}\n'
                 f'Номер телефона родителя: {parent_phone}\n'
                 f'Смена: {session}')
-        leads = Lead.objects.all()
-        for l in leads:
-            print(l)
+
         #Lead.objects.create(name=parent_name, phone=parent_phone)
         bot.send_message(group_id, text)
     return redirect('/')
