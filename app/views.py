@@ -12,13 +12,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 print(f"Сохраняем токены в: {BASE_DIR}")
 
 
-tokens.default_token_manager(
-    client_id="e9a129fe-7c84-4f9e-9bbc-5ce01612a78c",
-    client_secret="x7PDJ0G3ojUkov7gkocuJtiALEhfZ5f2TQXOnm90f0YExS5z5cRvpmwGVEHA7ZPd",
-    subdomain="muslimpulatov0317",
-    redirect_url="https://flexcamp.uz",
-    storage=tokens.FileTokensStorage(directory_path=BASE_DIR),  # by default FileTokensStorage
-)
+# tokens.default_token_manager(
+#     client_id="e9a129fe-7c84-4f9e-9bbc-5ce01612a78c",
+#     client_secret="x7PDJ0G3ojUkov7gkocuJtiALEhfZ5f2TQXOnm90f0YExS5z5cRvpmwGVEHA7ZPd",
+#     subdomain="muslimpulatov0317",
+#     redirect_url="https://flexcamp.uz",
+#     storage=tokens.FileTokensStorage(directory_path=BASE_DIR),  # by default FileTokensStorage
+# )
 
 
 print("2. Менеджер настроен")
