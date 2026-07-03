@@ -1,16 +1,28 @@
 from django.shortcuts import render, redirect
 import telebot
+import os
 from amocrm.v2 import tokens, Lead
 from config import TOKEN
+from . models import Comments
+
+print('1. Запуск')
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print(f"Сохраняем токены в: {BASE_DIR}")
+
 
 tokens.default_token_manager(
-    client_id="xxx-xxx-xxxx-xxxx-xxxxxxx",
-    client_secret="xxxx",
-    subdomain="subdomain",
-    redirect_url="https://xxxx/xx",
-    storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
+    client_id="e9a129fe-7c84-4f9e-9bbc-5ce01612a78c",
+    client_secret="x7PDJ0G3ojUkov7gkocuJtiALEhfZ5f2TQXOnm90f0YExS5z5cRvpmwGVEHA7ZPd",
+    subdomain="muslimpulatov0317",
+    redirect_url="https://flexcamp.uz",
+    storage=tokens.FileTokensStorage(directory_path=BASE_DIR),  # by default FileTokensStorage
 )
-tokens.default_token_manager.init(code="..very long code...", skip_error=True)
+
+
+print("2. Менеджер настроен")
+
 
 
 
@@ -20,7 +32,10 @@ group_id = -1003960414454
 
 
 def home_page(request):
-    return render(request,'home.html')
+    comments = Comments.objects.all()
+    context = {'comments': comments}
+    return render(request,'home.html', context)
+
 
 
 
@@ -33,6 +48,9 @@ def send_form(request):
                 f'Имя родителя: {parent_name}\n'
                 f'Номер телефона родителя: {parent_phone}\n'
                 f'Смена: {session}')
+        leads = Lead.objects.all()
+        for l in leads:
+            print(l)
         #Lead.objects.create(name=parent_name, phone=parent_phone)
         bot.send_message(group_id, text)
     return redirect('/')
