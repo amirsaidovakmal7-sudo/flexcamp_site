@@ -53,3 +53,12 @@ def send_form(request):
         bot.send_message(group_id, text)
     return redirect('/')
 
+
+def create_comment(request):
+    if request.method == 'POST':
+        author = request.POST.get('author')
+        comment_text = request.POST.get('comment_text')
+        new_comment = Comments.objects.create(comment_author=author, comment_text=comment_text)
+        new_comment.save()
+    return redirect('/')
+

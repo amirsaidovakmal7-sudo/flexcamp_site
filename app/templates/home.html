@@ -326,6 +326,81 @@
 
   @media (max-width: 600px) { .rates-grid { grid-template-columns: 1fr; } }
 
+
+  /* ── ФОРМА ОТЗЫВА ── */
+  .comment-form-wrap {
+    margin-top: 56px;
+    background: linear-gradient(135deg, #0D4FA0 0%, #1A6FD4 100%);
+    border-radius: var(--radius);
+    padding: 44px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .comment-form-left h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.4rem; font-weight: 900;
+    color: #fff; margin-bottom: 12px;
+  }
+  .comment-form-left p { color: rgba(255,255,255,0.8); font-size: 0.95rem; line-height: 1.7; }
+  .comment-form-left .emoji { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+  .comment-form { display: flex; flex-direction: column; gap: 14px; }
+  .comment-form input,
+  .comment-form textarea {
+    width: 100%; padding: 14px 18px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--dark); background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+  }
+  .comment-form input::placeholder,
+  .comment-form textarea::placeholder { color: #b0bec5; }
+  .comment-form input:focus,
+  .comment-form textarea:focus {
+    outline: none;
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 4px rgba(255,208,0,0.2);
+  }
+  .comment-form textarea { height: 100px; }
+  .comment-submit {
+    background: var(--yellow); color: var(--dark);
+    border: none; padding: 14px 28px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900; font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 20px rgba(255,208,0,0.4);
+    align-self: flex-start;
+  }
+  .comment-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,208,0,0.5); }
+  .comment-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+  .comment-success-msg {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 20px;
+    text-align: center; color: #fff;
+  }
+  .comment-success-msg .check { font-size: 2.5rem; margin-bottom: 8px; }
+  .comment-success-msg p { font-weight: 700; }
+
+  /* анимация появления новой карточки */
+  @keyframes card-appear {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: none; }
+  }
+  .rate-card.new-card { animation: card-appear 0.5s ease forwards; }
+
+  @media (max-width: 800px) {
+    .comment-form-wrap { grid-template-columns: 1fr; gap: 28px; padding: 32px 24px; }
+  }
+
 </style>
 </head>
 <body>
@@ -511,6 +586,28 @@
       </div>
       {% endfor %}
     </div>
+
+    <!-- Форма отзыва -->
+    <div class="comment-form-wrap reveal">
+      <div class="comment-form-left">
+        <span class="emoji">💬</span>
+        <h3>Поделитесь своим мнением</h3>
+        <p>Ваш отзыв поможет другим родителям принять решение. Напишите несколько слов о том, как прошла смена вашего ребёнка.</p>
+      </div>
+      <div>
+        <form class="comment-form" id="commentForm">
+          {% csrf_token %}
+          <input type="text" id="author" name="author" placeholder="Ваше имя" required>
+          <textarea id="comment-text" name="comment_text" placeholder="Расскажите о вашем опыте в лагере..." required></textarea>
+          <button type="submit" class="comment-submit" id="commentSubmitBtn">Оставить отзыв ✨</button>
+        </form>
+        <div class="comment-success-msg" id="commentSuccessMsg">
+          <div class="check">🎉</div>
+          <p>Спасибо за отзыв! Он появится после проверки.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -732,6 +829,65 @@ function submitForm(e) {
 
   return false;
 }
+
+
+// ── ФОРМА ОТЗЫВА — отправка через fetch ──
+document.getElementById('commentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form   = this;
+  const btn    = document.getElementById('commentSubmitBtn');
+  const author = document.getElementById('author').value.trim();
+  const text   = document.getElementById('comment-text').value.trim();
+  const csrf   = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  if (!author || !text) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Отправляем...';
+
+  fetch('/create-comment', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrf,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `author=${encodeURIComponent(author)}&comment_text=${encodeURIComponent(text)}&csrfmiddlewaretoken=${encodeURIComponent(csrf)}`
+  })
+  .then(res => {
+    if (res.ok || res.redirected) {
+      // Показываем сообщение об успехе
+      form.style.display = 'none';
+      document.getElementById('commentSuccessMsg').style.display = 'block';
+
+      // Добавляем карточку отзыва в сетку с анимацией
+      const grid = document.querySelector('.rates-grid');
+      const firstLetter = author.charAt(0).toUpperCase();
+      const card = document.createElement('div');
+      card.className = 'rate-card new-card';
+      card.innerHTML = `
+        <div class="rate-author-wrap">
+          <div class="rate-avatar">${firstLetter}</div>
+          <div>
+            <p class="rate-author">${author}</p>
+            <p class="rate-role">Родитель ребёнка из лагеря</p>
+          </div>
+        </div>
+        <div class="rate-stars">★★★★★</div>
+        <p class="rate-text">${text}</p>
+      `;
+      // Вставляем перед блоком с формой
+      grid.appendChild(card);
+    } else {
+      throw new Error('server error');
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Оставить отзыв ✨';
+    alert('Ошибка при отправке. Попробуйте ещё раз.');
+  });
+});
 
 // ── МАСКА ТЕЛЕФОНА +998 XX XXX XX XX ──
 function phoneInit(input) {
