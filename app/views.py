@@ -4,10 +4,12 @@ from django.shortcuts import render, redirect
 import telebot
 import os
 from amocrm.v2 import tokens, Lead
-from config import TOKEN, AMO_CLIENT_ID, AMO_CLIENT_SECRET
+from config import TOKEN
 from . models import Comments
-import requests
-import json, pathlib
+import json
+import pathlib
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 print('1. Запуск')
 
@@ -67,32 +69,19 @@ def create_comment(request):
     return redirect('/')
 
 
-
+@csrf_exempt
 def amo_callback(request):
-    code = request.GET.get('code')
-    if not code:
-        return HttpResponse('Нет кода')
+    if request.method == 'POST':
+        data = json.loads(request.body)
+    else:
+        data = request.GET.dict()
 
+    if not data:
+        return HttpResponse('Нет данных')
 
-    response = requests.post(
-        'https://muslimpulatov0317.amocrm.ru/oauth2/access_token',
-        headers={'Content-Type': 'application/json'},
-        json={
-            'client_id': AMO_CLIENT_ID,
-            'client_secret': AMO_CLIENT_SECRET,
-            'grant_type': 'authorization_code',
-            'code': code,
-            'redirect_uri': 'https://flexcamp.uz/amo/callback'
-        }
-    )
-    data = response.json()
-
+    # Сохраняем рядом с manage.py
     token_file = pathlib.Path(__file__).parent.parent / 'amo_tokens.json'
     with open(token_file, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=2)
 
-    return HttpResponse(f"Готово! access_token получен: {data.get('access_token', 'ошибка')[:20]}...")
-
-
-
-
+    return HttpResponse(f'Токены сохранены: {token_file}')
