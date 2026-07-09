@@ -75,7 +75,7 @@ def amo_callback(request):
 
 
     response = requests.post(
-        'https://muslimpulatov0317.amocrm.com/oauth2/access_token',
+        'https://muslimpulatov0317.amocrm.ru/oauth2/access_token',
         headers={'Content-Type': 'application/json'},
         json={
             'client_id': AMO_CLIENT_ID,
