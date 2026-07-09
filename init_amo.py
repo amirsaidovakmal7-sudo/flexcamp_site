@@ -1,25 +1,23 @@
-# from amocrm.v2 import tokens
-# import os
-# print('1. Запуск')
+# import requests
+# import json
 #
+# payload = {
+#     'client_id': 'e9a129fe-7c84-4f9e-9bbc-5ce01612a78c',
+#     'client_secret': 'ctijfYdwSf0KqIgEULFoyBKvLfdGQJl64d3unvu2WduHUCwU05gpLSqa3dSj2snc',
+#     'grant_type': 'authorization_code',
+#     'code': 'def502005cbb120a0dabae05041f01409fbd42a63b1aa032693732856629bd2fbea723304152c4410cd92e0154abd40c8f53cda65d4c91ea92aaef5b446058c70237a556a873eae9c044a7f8c3deb596913e365a26deb2c589305c7ebef99b8d16dc526bb85cd9c5765f4706254b0b2408799705a7bb6497429192eb3189660094dfc3f822086fc0da2bcd988b1352fe2b829de5bfe72051bec13f40482970d676eeafe37793c59494b6cf66e970b4ab6212dabdf3b1f43dbfde7bdf1fed8732ca480a0784b4ae01bbc1050c545828be33119f4e64a6c59e7f6bf3e92ad42ad0079cf8819282fadec73ba07d6887229af66a9b17548b3173efe4b96c31b2cfa4ce2a4ba95fcd9ed2d9e2c148be2adfe5a8d637d63b1fe8666f3cda6258d26fcafd57bdaccc0013f9a14633456eb427732ca5a5a50e8b2e6eaf7995311e079f48864abbb7f32e54a575c99565f4d2bddcdad9c8c42ee5820562c286c7568898f1b44a2e1c8395c1b0d5ba1cdddd92b7ca3f8fe5a6adc4c41021d8079b73ac8b0f439e127f6a766f7daef6895ac68eeaee7ee21be9d543aa6821e92845d04cde0fbff40a3efccdac26df1d0e80258ec23b6859d6b477f157c0c608fb61c2fcaed53323ebc8abeccdb7de1266b626c44d69f2102745ec6905756b99314c869b3f949bebdb57',
+#     'redirect_uri': 'https://flexcamp.uz'
+# }
 #
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# print(f"Сохраняем токены в: {BASE_DIR}")
+# print("Отправляем:", json.dumps(payload, indent=2))
 #
-#
-# tokens.default_token_manager(
-#     client_id="e9a129fe-7c84-4f9e-9bbc-5ce01612a78c",
-#     client_secret="6VtBvucwQAGGnmqCB5z9W1JNztfLky0IOe7fq4Um0UUFGWBT81MEc0jTikQbuxok",
-#     subdomain="muslimpulatov0317",
-#     redirect_url="https://flexcamp.uz",
-#     storage=tokens.FileTokensStorage(directory_path=BASE_DIR),  # by default FileTokensStorage
+# response = requests.post(
+#     'https://muslimpulatov0317.amocrm.com/oauth2/access_token',
+#     headers={
+#         'Content-Type': 'application/json',
+#         'Accept': 'application/json'
+#     },
+#     data=json.dumps(payload)
 # )
-#
-#
-# print("2. Менеджер настроен")
-#
-# try:
-#     tokens.default_token_manager.init(code="def50200611661ddc8508f5e22b93ebd6869d063daa3a5729adfcfd61d1868a865f2da7276383798bcc8728c067f2de9e1b683ef8d3277949adcf89cc27698c3e2512641989c984676434f2fb92a873e121ae8563edce81281e8a7c07f5042bed376ec2acb274b0e85204ff9d9cb4c37c3298954b518f5a3be32124bb6a1417ffb7e8b33af03ba74295194f525fc1f1c7c257310415c1272dd08ca42c595776ade7a89f270271a042c34e40cdaa776dc1e1968e17ec4da35c6671537a3cc3ff35890b081f35c1f654d31aeee1c2560d25e2e0d678ecace4675ce892d9b533f87ad0e4c147491cefc91552520bffe0f2fde6b21d967c7011c43b5e720c2cdab06e5dcecaa69c4bfdca302225c8bf475b5b693e43889a56bcee6dde0e046fa8884704cd3b3355f01bba0a64f02585087498d77853a9122396c65f33765093a009243328fbda395565f4f1ac939736b9877cb855ff8efb63211d36b7a747ce0607d6fa7b835f52bf23d9d9930a79a21b4c0b512c5c1a4ba2156d20a8ecc34ede02f3e81235db1ea25e12d0aa71a02406ea8aaef2adab2835b8713469106f0c9e05393702e665c9919410523103c09948b666723e0539ae899255719e6ecf32656ed28377e3388dd92bef776bb24dd412cbaf85bcea311a8366398c1bd2b93a906f569179e74 ", skip_error=False)
-#     print('3. Успешно')
-# except Exception as e:
-#     print(f'Ошибка {e}')
+# print(response.status_code)
+# print(response.text)
