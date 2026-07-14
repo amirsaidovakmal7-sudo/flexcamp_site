@@ -1,20 +1,14 @@
-from amocrm.v2 import tokens
-import os
-
-# Папка где лежит этот файл (рядом с manage.py)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-tokens.default_token_manager(
-    client_id="e126392c-7975-469c-a48c-f921eb3740fc",
-    client_secret="Jac6QetZnlOdmU868syK4YUdiBHH5pt1bkLjiPDfWNylUba3XtrYlpvNN7GuYuJS",
-    subdomain="muslimpulatov0317",
-    redirect_url="https://flexcamp.uz/amotoken",
-    storage=tokens.FileTokensStorage(directory_path=BASE_DIR),  # by default FileTokensStorage
-)
-
-try:
-    tokens.default_token_manager.init(code="def50200dd8bd8f3b9bc2c496e45c0958335927a1ca3c6f392167ea9a78f44e10d3f02a8e5e0450424d5ccdd097370687473e762d48e363f66c8b88791aae88be74d4933c693f49ce8d3861c01b2f7ab87bc8f1e6e2beffedf053eb22848754845a2573893c9335367dabd87f41b16372218c41fab4b66eb97bea6fce651057d2027768cbc875251fcd3cdc929fd7ddb0af2234cf23f2389c87b5c0c7770c62fa367a3abb6b6967078240cae1b9d4fb80b3558b6de0eb8f0155115306ce1d024e8bea5c21144db2348b2d242bdf489050dab48a62fb877a4d8082e21195f9261e0d0dfb7208928c13c86075665da58b88c3447f76449c65c9b48c3d3b58ae9f545e23cbb747537b554cfc2d5ebd02d1394cef57cc6d07667d95e1a8e370c43c736cde083c2ff5f331bbc3b729a5c9d11a7ae201de427956eba97cd970de7e54c3b45c8a1eea1f53cefa36eb30435b3e72d199600a43f09f62e68e16b8c53a696e66bcda4c8f1dd18ee974894b6d047ecb9481a2361da025d5b01e8634a4e5832443655c922b50cfc4674053582577b1cfa64d669fbbf39bbe63757509eac50c3b96d5afc27df74874317dba5175e489054f74cf5d520e64e9bae61f10e352dff395aea6c7a68291b605d451d339571768b856227c5a706fdf534bc6875763a337e5fed4750ddc275f6866b4e86ed", skip_error=False)
-except Exception as e:
-    print(f'Ошибка: {e}')
-
-
+# from amocrm.v2 import tokens
+#
+# tokens.default_token_manager(
+#     client_id="e126392c-7975-469c-a48c-f921eb3740fc",
+#     client_secret="ONJLvjZx51xCaueNYz1JSlXzLgED2nRgHI1z0leLtLsQZ45joI0McWxLvJMqOFnK",
+#     subdomain="muslimpulatov0317",
+#     redirect_url="https://flexcamp.uz/amotoken",
+#     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
+# )
+#
+# try:
+#     tokens.default_token_manager.init(code="def502009f3ef9df7c3bf3ad1f6ac972f12c575ffe7b3f469c1e4879f0e8d9084a186f78cfc4d1e438ba40a822523f85848ba0c0120009ca4040234be5c1515f8fb8aef14c1f6241e85c2606f9580beb063ec0cfdf1b46a3892d085e0508fcfd301e894c712e33b3f640cb2b126cace212f5a2a38e0c7d998a6e3c2376af6ccd8ee085d20e561597d1f8e047d69ddb75a7cf44aba7a03688117741779fc0b76b8d1aecaf1020a59abdbccb2271760901bbc34ea64c410395afd2c14c0b04b050ac11239a500886a8b569ac9217ba575c72d768cfaea1a0953159b186d42cf1b5e98ae90db60d847c09a18e3cd71a5e36c15d690fab3a238bb1bb6ea318d70853dbf64659df82dff692d844ffb35098259d54ebddfc078649cdbafee3771c5d962cd02cd66bb945553f5e7fa731af0a96c73baf5d223d45cbda91197ad9d8d9fdc733a92074faaed4cd55af574707b4a930e0361bdbe186adcdc058d3d8a274797eed849eee9073fbfb020bfd080a5f3b81363e4cbd2297b1d6bffb4a31fcaa6b1e4cd3238209bd183179c05754febca8e49bee664c3b7ae2ffc718815250a0794434144999e7f051a3fe4fd9a4450e63815bc8d632c609892fd414839b25f33cf3ac8452b88db9d03c66a75a760a66091f573f7040117eb568b617dab9d12073b299f7116501238425854c3945a8", skip_error=False)
+# except Exception as e:
+#     print(f'Ошибка: {e}')
