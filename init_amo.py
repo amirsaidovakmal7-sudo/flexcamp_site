@@ -186,8 +186,8 @@ def add_complex_lead(name, phone_number, session):
     return lead_id
 
 
-amo_wrapper = AmoCRMWrapper()
-amo_wrapper.init_oauth2()
 
+print(get_access_token())
+print(get_refresh_token())
 
 
