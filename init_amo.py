@@ -187,7 +187,5 @@ def add_complex_lead(name, phone_number, session):
 
 
 
-print(get_access_token())
-print(get_refresh_token())
 
 
