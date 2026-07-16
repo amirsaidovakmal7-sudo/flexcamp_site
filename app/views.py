@@ -10,6 +10,7 @@ import json
 import pathlib
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from init_amo import add_complex_lead
 
 print('1. Запуск')
 
@@ -55,7 +56,7 @@ def send_form(request):
                 f'Номер телефона родителя: {parent_phone}\n'
                 f'Смена: {session}')
 
-        #Lead.objects.create(name=parent_name, phone=parent_phone)
+        add_complex_lead(parent_name, parent_phone, session)
         bot.send_message(group_id, text)
     return redirect('/')
 

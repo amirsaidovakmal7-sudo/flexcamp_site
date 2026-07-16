@@ -13,3 +13,22 @@ class Comments(models.Model):
         return self.comment_author
 
 
+class Access_token(models.Model):
+    access_token = models.TextField('Access Token')
+    class Meta:
+        verbose_name = 'Access token'
+
+
+    def __str__(self):
+        return self.access_token
+
+class Refresh_token(models.Model):
+    refresh_token = models.TextField('Refresh Token')
+    class Meta:
+        verbose_name = 'Refresh token'
+
+    def __str__(self):
+        return self.refresh_token
+
+
+

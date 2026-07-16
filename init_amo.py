@@ -1,14 +1,190 @@
-# from amocrm.v2 import tokens
-#
-# tokens.default_token_manager(
-#     client_id="e126392c-7975-469c-a48c-f921eb3740fc",
-#     client_secret="ONJLvjZx51xCaueNYz1JSlXzLgED2nRgHI1z0leLtLsQZ45joI0McWxLvJMqOFnK",
-#     subdomain="muslimpulatov0317",
-#     redirect_url="https://flexcamp.uz/amotoken",
-#     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
-# )
-#
-# try:
-#     tokens.default_token_manager.init(code="def502009f3ef9df7c3bf3ad1f6ac972f12c575ffe7b3f469c1e4879f0e8d9084a186f78cfc4d1e438ba40a822523f85848ba0c0120009ca4040234be5c1515f8fb8aef14c1f6241e85c2606f9580beb063ec0cfdf1b46a3892d085e0508fcfd301e894c712e33b3f640cb2b126cace212f5a2a38e0c7d998a6e3c2376af6ccd8ee085d20e561597d1f8e047d69ddb75a7cf44aba7a03688117741779fc0b76b8d1aecaf1020a59abdbccb2271760901bbc34ea64c410395afd2c14c0b04b050ac11239a500886a8b569ac9217ba575c72d768cfaea1a0953159b186d42cf1b5e98ae90db60d847c09a18e3cd71a5e36c15d690fab3a238bb1bb6ea318d70853dbf64659df82dff692d844ffb35098259d54ebddfc078649cdbafee3771c5d962cd02cd66bb945553f5e7fa731af0a96c73baf5d223d45cbda91197ad9d8d9fdc733a92074faaed4cd55af574707b4a930e0361bdbe186adcdc058d3d8a274797eed849eee9073fbfb020bfd080a5f3b81363e4cbd2297b1d6bffb4a31fcaa6b1e4cd3238209bd183179c05754febca8e49bee664c3b7ae2ffc718815250a0794434144999e7f051a3fe4fd9a4450e63815bc8d632c609892fd414839b25f33cf3ac8452b88db9d03c66a75a760a66091f573f7040117eb568b617dab9d12073b299f7116501238425854c3945a8", skip_error=False)
-# except Exception as e:
-#     print(f'Ошибка: {e}')
+from config import *
+import requests
+import os
+from datetime import datetime
+import time
+from requests.exceptions import JSONDecodeError
+import jwt
+import dotenv
+from dotenv import load_dotenv
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+django.setup()
+
+from app.models import *
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+dotenv_path = os.path.join(BASE_DIR, ".env")
+
+
+CHOOSED_SESSIONFIELD_ID = 1897827
+RESPONSIBLE_USER_ID = 33083426
+PIPLINE_ID = 10970430
+STATUS_ID = 86247706
+
+
+
+secret_code = ''
+
+
+
+def _is_expire(token):
+    if isinstance(token, str):
+        token = token.encode('utf-8')
+    token_data = jwt.decode(token, options={"verify_signature": False})
+    exp = datetime.utcfromtimestamp(token_data['exp'])
+    now = datetime.utcnow()
+
+    return now >= exp
+
+
+def save_tokens(access_token, refresh_token):
+    try:
+        Access_token.objects.update_or_create(id=1, defaults={'access_token': access_token})
+        Refresh_token.objects.update_or_create(id=1, defaults={'refresh_token': refresh_token})
+        return True
+    except Exception as e:
+        return e
+
+
+
+
+
+def get_access_token():
+    return Access_token.objects.get(id=1).access_token
+
+
+def get_refresh_token():
+    return Refresh_token.objects.get(id=1).refresh_token
+
+
+def get_new_tokens():
+    data = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'refresh_token',
+        'refresh_token': get_refresh_token(),
+        'redirect_uri': REDIRECT_URI,
+
+    }
+    response = requests.post('https://{}.amocrm.ru/oauth2/access_token'.format(SUBDOMAIN),
+                             json=data).json()
+    print(response)
+    access_token = response['access_token']
+    refresh_token = response['refresh_token']
+
+    save_tokens(access_token, refresh_token)
+
+
+class AmoCRMWrapper:
+    def init_oauth2(self):
+        data = {
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'grant_type': "authorization_code",
+            'code': secret_code,
+            'redirect_uri': REDIRECT_URI
+        }
+        response = requests.post('https://{}.amocrm.ru/oauth2/access_token'.format(SUBDOMAIN),
+                                 json=data).json()
+
+        print(response)
+        access_token = response['access_token']
+        refresh_token = response['refresh_token']
+
+        result = save_tokens(access_token, refresh_token)
+
+        print(f'РЕЗУЛЬТАТ: {result}, {type(result)}')
+
+
+
+
+    def base_request(self, **kwargs):
+        if _is_expire(get_access_token()):
+            get_new_tokens()
+        access_token = f"Bearer {get_access_token()}"
+
+        headers = {
+            "Authorization": access_token
+        }
+        req_type = kwargs.get('type')
+        response = ""
+        if req_type == "get":
+            try:
+                response = requests.get("https://{}.amocrm.ru{}".format(
+                    SUBDOMAIN, kwargs.get("endpoint")), headers=headers).json()
+            except JSONDecodeError as e:
+                return e
+
+        elif req_type == "get_param":
+            url = "https://{}.amocrm.ru{}?{}".format(
+                SUBDOMAIN,
+                kwargs.get("endpoint"), kwargs.get("parameters"))
+            response = requests.get(str(url), headers=headers).json()
+        elif req_type == "post":
+            response = requests.post("https://{}.amocrm.ru{}".format(
+                SUBDOMAIN,
+                kwargs.get("endpoint")), headers=headers, json=kwargs.get("data")).json()
+        return response
+
+
+
+def add_complex_lead(name, phone_number, session):
+    data = [
+        {
+            "source_name": "Сайт Flex Camp",
+            "source_uid": "Форма запипси flex camp",
+            "metadata": {
+                "ip": "82.115.50.124",
+                "form_id": "new lead",
+                "form_sent_at": int(time.time()),
+                "form_name": "Форма записи в лагерь",
+                "form_page": "https://flexcamp.uz",
+                "referer": "https://flexcamp.uz"
+            },
+            "_embedded": {
+                "leads": [{
+
+                    "name": 'Новая сделка с сайта',
+                }
+
+                          ],
+                "contacts": [
+                    {
+                        "name": name,
+                        "updated_by": 0,
+                        "custom_fields_values": [
+                            {
+                                "field_id": CHOOSED_SESSIONFIELD_ID,
+                                "values": [
+                                    {
+                                        "value": session
+                                    }
+                                ]
+                            },
+                            {
+                                "field_code": "PHONE",
+                                "values": [
+                                    {
+                                        "enum_code": "WORK",
+                                        "value": phone_number
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+    amocrm_wrapper = AmoCRMWrapper()
+    response = amocrm_wrapper.base_request(endpoint='/api/v4/leads/unsorted/forms', type='post', data=data)
+
+    lead_id = response['_embedded']['unsorted'][0]['_embedded']['leads'][0]['id']
+    return lead_id
+
+
+
+
